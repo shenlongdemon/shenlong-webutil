@@ -1,0 +1,347 @@
+﻿<style>
+    textarea {
+        width:100%;
+        
+    }
+</style>
+<div ng-controller="OrionIFCController">
+   
+
+    <div class="row col-md-12" ng-repeat="FWW in FWs">
+
+
+        <div class="row col-md-12">
+            <button class="col-md-12"
+                    data-toggle="collapse"
+                    data-target="#{{FWW.id}}">
+                {{FWW.name}}
+            </button>
+        </div>
+        
+        <div class="row col-md-12 collapse" id="{{FWW.id}}">
+            <!--<button class="col-md-12" ng-click="updateFirmware(FW.id)">Update</button>-->
+            <div class="row col-md-12">                
+                id : {{FWW.id}}       
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    Name 
+                </div>
+                <div class="col-md-2">
+                    <input ng-model="FWW.name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    Deplay
+                </div>
+                <div class="col-md-2">
+                    <input ng-model="FWW.delay" />
+                </div>
+            </div>
+            <div class="row col-md-12">
+                Open Port
+            </div>
+            <div class="row col-md-12">                
+                <div class="col-md-2">
+                    Name<input ng-model="FWW.openPort.name" />
+                </div>
+                <div class="col-md-5">
+                    Data <textarea ng-model="FWW.openPort.data" />
+                </div>
+            </div>
+            <div class="row col-md-12">
+                Reset CPU
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-2">
+                    Name<input ng-model="FWW.resetCPU.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="FWW.resetCPU.data" />
+                </div>
+            </div>
+            <div class="row col-md-12">
+                Factory Reset
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-2">
+                    Name<input ng-model="FWW.factoryReset.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="FWW.factoryReset.data" />
+                </div>
+            </div>
+            
+            <div class="row col-md-12">
+                Run App
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-2">
+                    Name<input ng-model="FWW.runApp.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="FWW.runApp.data" />
+                </div>
+            </div>
+            <div class="row col-md-12">
+                Write Setting
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-2">
+                    Name<input ng-model="FWW.writeSetting.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="FWW.writeSetting.data" />
+                </div>
+            </div>
+          
+            <div class="row col-md-12">
+                SETTINGS
+            </div>
+            <div class="row col-md-12" ng-repeat="st in FWW.settings track by $index">
+
+                <div class="col-md-2">
+                    Name<input ng-model="st.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="st.data" />
+                </div>
+                <div class="col-md-1">
+                    <button ng-click="removeSetting(FWW.id, $index)">Remove</button>
+                </div>
+            </div>
+            <div class="row col-md-12" >
+
+                <div class="col-md-2">
+                    Name<input ng-model="settingExists.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="settingExists.data" />
+                </div>
+                <div class="col-md-1">
+                    <button ng-click="addSettingExists(FWW.id)">Add</button>
+                </div>
+            </div>
+           
+
+
+
+            <div class="row col-md-12">
+                UPDATE FW
+            </div>
+            <div class="row col-md-12" ng-repeat="fir in FWW.updateFirmwares track by $index">
+                <div class="col-md-1">
+                    Display<input type="checkbox" ng-model="fir.display" />
+                </div>
+                <div class="col-md-2">
+                    Name<input ng-model="fir.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="fir.data" />
+                </div>
+                <div class="col-md-1">
+                    <button ng-click="removeFirmware(FWW.id, $index)">Remove</button>
+                </div>
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-1">
+                    Display<input type="checkbox" ng-model="firmwareExists.display" />
+                </div>
+                <div class="col-md-2">
+                    Name<input ng-model="firmwareExists.name" />
+                </div>
+                <div class="col-md-5">
+                    Data<textarea ng-model="firmwareExists.data" />
+                </div>
+                <div class="col-md-1">
+                    <button ng-click="addFirmwareExists(FWW.id)">Add</button>
+                </div>
+            </div>
+            <div class="row col-md-12">
+                <button class="col-md-3 col-md-offset-3" ng-click="updateFirmware(FWW.id)">Update</button>
+            </div>
+        </div>
+        <div class="row col-lg-12">
+            <br/><br />
+        </div>
+    </div>
+
+
+
+
+    <div class="row col-lg-12"> 
+        =================================================================================================
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            Name
+        </div>
+        <div class="col-md-2">
+            <input ng-model="FW.name" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            Deplay
+        </div>
+        <div class="col-md-2">
+            <input ng-model="FW.delay" />
+        </div>
+    </div>
+    <div class="row col-md-12">
+        Open Port
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            Name<input ng-model="FW.openPort.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="FW.openPort.data" />
+        </div>
+    </div>
+    
+    <div class="row col-md-12">
+        Reset CPU
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            Name<input ng-model="FW.resetCPU.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="FW.resetCPU.data" />
+        </div>
+    </div>
+    <div class="row col-md-12">
+        Factory Reset
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            Name<input ng-model="FW.factoryReset.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="FW.factoryReset.data" />
+        </div>
+    </div>
+    <div class="row col-md-12">
+        Run App
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            Name<input ng-model="FW.runApp.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="FW.runApp.data" />
+        </div>
+    </div>
+    <div class="row col-md-12">
+        Write Setting
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            Name<input ng-model="FW.writeSetting.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="FW.writeSetting.data" />
+        </div>
+    </div>
+
+    <div class="row col-md-12">
+        SETTINGS
+    </div>
+    <div class="row col-md-12" ng-repeat="setting in FW.settings">
+
+        <div class="col-md-2">
+            Name<input ng-model="setting.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="setting.data" />
+        </div>
+        <div class="col-md-1">
+            <button ng-click="removeAddingSetting($index)">Remove</button>
+        </div>
+    </div>
+    <div class="row col-md-12">
+
+        <div class="col-md-2">
+            Name<input ng-model="setting.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="setting.data" />
+        </div>
+        <div class="col-md-1">
+            <button ng-click="addSetting()">Add</button>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+    <div class="row col-md-12">
+        UPDATE FW
+    </div>
+    <div class="row col-md-12" ng-repeat="firmware in FW.updateFirmwares">
+        <div class="col-md-1">
+            Display<input type="checkbox" ng-model="firmware.display" />
+        </div>
+        <div class="col-md-2">
+            Name<input ng-model="firmware.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="firmware.data" />
+        </div>
+        <div class="col-md-1">
+            <button ng-click="removeAddingFirmware($index)">Remove</button>
+        </div>
+    </div>
+    <div class="row col-md-12">
+        <div class="col-md-1">
+            Display<input type="checkbox" ng-model="firmware.display" />
+        </div>
+        <div class="col-md-2">
+            Name<input ng-model="firmware.name" />
+        </div>
+        <div class="col-md-5">
+            Data<textarea ng-model="firmware.data" />
+        </div>
+        <div class="col-md-1">
+            <button ng-click="addFirmware()">Add</button>
+        </div>
+    </div>
+
+    <div class="row col-md-12">
+        <button ng-click="insertFirmware();">Insert database</button>
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+</div>
