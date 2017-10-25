@@ -12,7 +12,7 @@ var selectJSON = function (path) {
     var deferred = q.defer();
     var db = admin.database();
     var ref = db.ref(path);
-    ref.once(path, function(data) {
+    ref.once("value", function(data) {
         deferred.resolve(data);
     });
     return deferred.promise;
