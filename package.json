@@ -10,10 +10,11 @@
     "start": "node index.js",
     "test": "node test.js"
   },
-  "dependencies": {   
-    "express": "4.15.2",
+  "dependencies": {
     "assert-plus": "^1.0.0",
     "body-parser": "^1.15.2",
+    "express": "4.15.2",
+    "firebase-admin": "^5.4.3",
     "lz-string": "^1.4.4",
     "node-json-db": "^0.7.3",
     "q": "^1.4.1",

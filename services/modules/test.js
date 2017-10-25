@@ -2,8 +2,9 @@
 /*
  * GET users listing.
  */
-
+var database = require("../libraries/firebase/firebase");
 var test = function(obj){    	
+	database.insertJSON("test",{value:obj});
 	return {msg:"test success", obj: obj} ;
 };
 
