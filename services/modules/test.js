@@ -9,5 +9,5 @@ var test = function(obj){
 
 module.exports =
 {	
-	test : test
+	test : test // call by [host].com/service/test/test/a
 }
