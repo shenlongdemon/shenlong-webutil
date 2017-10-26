@@ -3,7 +3,7 @@
  * GET users listing.
  */
 var q = require('q');
-var database = require("../libraries/firebase/firebase");
+var database = require("../libraries/database/database");
 var test = function(obj){    
 	
 	return {msg:"test success", obj: obj} ;

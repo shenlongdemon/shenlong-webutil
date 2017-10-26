@@ -42,6 +42,8 @@ For more information about using Node.js on Heroku, see these Dev Center article
 ## Debug
 
 ```
+run node with command:
+
 $ node --inspect-brk index.js
 
 ``` 
