@@ -11,6 +11,7 @@ var test = function(obj){
 var testAsync = function(obj){    	
 	var deferred = q.defer();
 	database.selectJSON("test").then(function(data){
+		data.version = "Update README.md";
 		deferred.resolve(data);
 	})
     return deferred.promise;
