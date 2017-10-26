@@ -22,10 +22,10 @@ var insertJSON = function (path, obj) {
     var ref = db.ref(path);
     ref.set(obj);
 }
-var updateJSON = function (obj) {
+var updateJSON = function (path, obj) {
     
 }
-var deleleJSON = function (obj) {
+var deleleJSON = function (path) {
     
 }
 module.exports =
