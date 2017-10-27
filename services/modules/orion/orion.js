@@ -11,6 +11,7 @@ var _ = require('underscore');
 var q = require('q');
 var LZString = require('lz-string');
 var JsonDB = require('node-json-db'); // see more https://www.npmjs.com/package/node-json-db
+var database = require("../../libraries/database/database");
 
 
 var LINK_MAIN = "https://docs.google.com/spreadsheets/d/1Z45EBAQE84iD2je4D1TVFxChzIf2il5kmsXbd_rovCE/pub?gid=0&single=true&output=csv";
@@ -37,8 +38,11 @@ var COMPRESSTYPE = {
     }
 };
 var FWDB = function () {
-    var db = new JsonDB("./services/modules/orion/file/FWs", true, true);
-    return db;
+    var serviceAccount = require("../../libraries/database/firebase/shenlong-webutil-firebase-adminsdk-r9qfl-1ddbda3021.json");
+	var url = "https://shenlong-webutil.firebaseio.com";
+	var configs = [serviceAccount, url];
+	var db = database.connect(configs);
+	return db;	
 };
 var ESPDB = function () {
     var db = new JsonDB("./services/modules/orion/file/ESPs", true, true);
@@ -289,7 +293,7 @@ var insertFirmware = function (obj) {
     var json = JSON.parse(string);
     //console.log("json        " + json);
     json.id = id;
-    fws.push("/FW/" + id, json);
+    fws.insertJSON("Orion/IFC/FW/" + id, json);
     return true;
 }
 var updateFirmware = function (obj) {
@@ -300,12 +304,12 @@ var updateFirmware = function (obj) {
     //console.log("json        " + json);
     var fws = FWDB();
     console.log("jsonID        " + json.id);
-    fws.push("/FW/" + json.id, json);
+    fws.updateJSON("Orion/IFC/FW/" + json.id, json);
     return true;
 }
-var getFirmwares = function (obj) {
+var getFirmwaresAsync = function (obj) {
     var fws = FWDB();
-    var data = fws.getData("/FW");
+    var data = fws.selectJSON("Orion/IFC/FW");
     return data;
 }
 var settingESP = function (obj) {
@@ -337,7 +341,7 @@ module.exports =
     getTextFileAsync: getTextFileAsync,
     getTextFileNewAsync: getTextFileNewAsync,
     insertFirmware: insertFirmware,
-    getFirmwares: getFirmwares,
+    getFirmwaresAsync: getFirmwaresAsync,
     updateFirmware: updateFirmware,
     settingESP: settingESP,
     getESPData:getESPData,

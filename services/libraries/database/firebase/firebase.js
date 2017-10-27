@@ -38,7 +38,9 @@ var insertJSON = function (path, obj) {
     ref.set(obj);
 }
 var updateJSON = function (path, obj) {
-    
+    var db = admin.database();
+    var ref = db.ref(path);
+    ref.set(obj);
 }
 var deleleJSON = function (path) {
     

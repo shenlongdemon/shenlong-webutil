@@ -26,7 +26,7 @@
             return $http.post(api, obj);
         }
         function getFirmwares() {
-            var api = API_GET.replace("{action}", "getFirmwares").replace("{obj}",1);            
+            var api = API_GET.replace("{action}", "getFirmwaresAsync").replace("{obj}",1);            
             return $http.get(api);
         }
         function updateFirmware(fw) {

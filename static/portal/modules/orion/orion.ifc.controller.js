@@ -55,6 +55,9 @@
 		}
 		function addFirmwareExists(FWid) {
 			var item = $scope.FWs[FWid];
+			if (item.updateFirmwares == undefined){
+				item.updateFirmwares = [];
+			}
 			item.updateFirmwares.push({ display: $scope.firmwareExists.display, name: $scope.firmwareExists.name, data: $scope.firmwareExists.data });
 			$scope.firmwareExists = {};
 		}
@@ -83,7 +86,8 @@
 		    $scope.FW.settings.splice(idx, 1);
 		}
 		function insertFirmware() {
-		    OrionIFCService.insertFirmware($scope.FW).success(function (res) {
+			var fw = angular.copy($scope.FW);
+		    OrionIFCService.insertFirmware(fw).success(function (res) {
 				window.location.reload();
 			})
             .error(function () {
