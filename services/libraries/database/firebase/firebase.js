@@ -1,13 +1,28 @@
 var q = require('q');
 var admin = require("firebase-admin");
-var serviceAccount = require("./shenlong-webutil-firebase-adminsdk-r9qfl-1ddbda3021.json");
+//var serviceAccount = require("./shenlong-webutil-firebase-adminsdk-r9qfl-1ddbda3021.json");
 
 // Initialize the app with a service account, granting admin privileges
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://shenlong-webutil.firebaseio.com"
-});
 
+// configArray must have 2 item
+// - json file 
+// - url database
+var connect = function(configArray){
+    try {
+        admin.initializeApp({
+            credential: admin.credential.cert(configArray[0]),
+            databaseURL: configArray[1]
+        });
+    } catch (error) {
+        
+    }
+    
+    return this;
+    // admin.initializeApp({
+    //     credential: admin.credential.cert(serviceAccount),
+    //     databaseURL: "https://shenlong-webutil.firebaseio.com"
+    // });
+}
 var selectJSON = function (path) {
     var deferred = q.defer();
     var db = admin.database();
@@ -30,6 +45,7 @@ var deleleJSON = function (path) {
 }
 module.exports =
 {
+    connect: connect,
     insertJSON: insertJSON,
     updateJSON: updateJSON,
     deleleJSON: deleleJSON,

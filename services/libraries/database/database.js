@@ -2,9 +2,14 @@
 
 var database = require("./firebase/firebase");
 
+var configurations = [];
 
-
-var selectJSON = function (path) {
+var connect = function(configArray){    
+    configurations = configArray;
+    database.connect(configArray);
+    return this;
+}
+var selectJSON = function (path) {    
     return database.selectJSON(path);
 }
 var insertJSON = function (path, obj) {
@@ -19,6 +24,7 @@ var deleleJSON = function (path) {
 
 module.exports =
 {
+    connect: connect,
     insertJSON: insertJSON,
     updateJSON: updateJSON,
     deleleJSON: deleleJSON,
