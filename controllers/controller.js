@@ -3,6 +3,8 @@
  * GET users listing.
  */
 var services = require("./../services/service");
+var version = "Add version when return data" + "" ;
+
 var doget = function(req, res){
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -19,7 +21,10 @@ var doget = function(req, res){
 		console.log("controller call doget async");
 	    services["doaction"](service, action, obj).then(function (data) {
 	        console.log("controller get from doget async");
-			var result = {Data:data};
+			var result = {
+				Data: data,
+				Version: version
+			};
 	        res.status(200).send(result);
 	    }).catch(function (error) {
 			res.status(500).send(error);
@@ -28,7 +33,10 @@ var doget = function(req, res){
 	else{
 	    console.log("controller call doget");
 		var ret = services["doaction"](service, action, obj);	
-		var result = { Data: ret };
+		var result = { 
+			Data: ret ,
+			Version: version
+		};
 		console.log("controller get from doget");
         res.status(200).send(result);
 	}
@@ -78,7 +86,10 @@ var dopost = function(req, res){
 	if(async == true){
 		console.log("controller call dopost async");
 		services["doaction"](service, action, obj).then(function (data) {
-		    var result = { Data: data };
+		    var result = {
+				Data: data ,
+				Version: version
+			};
 		    console.log("controller get from dopost async");
 			res.status(200).send(result);
 	    }).catch(function (error) {
@@ -88,7 +99,10 @@ var dopost = function(req, res){
 	else{
 		console.log("controller call dopost sync");
 		var ret = services["doaction"](service, action, obj);	
-		var result = { Data: ret };
+		var result = { 
+			Data: ret ,
+			Version: version
+		};
 		console.log("controller get from dopost");
         res.status(200).send(result);
 	}

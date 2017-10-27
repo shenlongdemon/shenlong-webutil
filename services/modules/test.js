@@ -18,8 +18,7 @@ var test = function(obj){
 var testAsync = function(obj){    	
 	var deferred = q.defer();
 	var db = SL_WU_FIR();
-	db.selectJSON("test").then(function(data){
-		data.version = "fix for refator database";
+	db.selectJSON("test").then(function(data){			
 		deferred.resolve(data);
 	})
     return deferred.promise;
