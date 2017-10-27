@@ -120,10 +120,6 @@ var analyzeLink = function (link) {
                 idx += 1;
             }
         });
-
-        
-
-
     });
     return deferred.promise;
 };
@@ -145,98 +141,94 @@ var getTextFileNewAsync = function (compressType) {
     var resObj = [];
     var deferred = q.defer();
     try {
-        var data = fws.getData("/FW");
-        var ids = Object.keys(data);
-        var i = 0;
-        
-        for (i = 0  ; i < ids.length; i++) {
-            var res = {};
-            var id = ids[i];
-            var obj = data[id];
-            console.log(obj);
-            res.Delay = obj.delay;
-            res.OpenPortName = obj.openPort.name;
-            res.OpenPort = _.filter(obj.openPort.data.replace("\n", "").replace("\t", "").split(";"), function (item) { return item != undefined && item.trim().length > 0;});
-
-            res.ResetCPUName = obj.resetCPU.name;
-            res.ResetCPU = _.filter(obj.resetCPU.data
-                                    .replace("\n", "").replace("\t", "")
-                                    .split(";"), function (item) {
-                                        return item != undefined && item.trim().length > 0;
-                                    });
-
-            res.FactoryResetName = obj.factoryReset.name;
-            res.FactoryReset = _.filter(obj.factoryReset.data
-                                    .replace("\n", "").replace("\t", "")
-                                    .split(";"), function (item) {
-                                        return item != undefined && item.trim().length > 0;
-                                    });
+        var ref = fws.selectJSON("Orion/IFC/FW").then(function(snapshots){
+            var data = snapshots.val();
+            var ids = Object.keys(data);
+            var i = 0;
             
-            res.RunAppName = obj.runApp.name;
-            res.RunApp = _.filter(obj.runApp.data
-                                    .replace("\n", "").replace("\t", "")
-                                    .split(";"), function (item) {
-                                        return item != undefined && item.trim().length > 0;
-                                    });;
-
-            res.WriteSettingName = obj.writeSetting.name;
-            res.WriteSetting = _.filter(obj.writeSetting.data
-                                    .replace("\n", "").replace("\t", "")
-                                    .split(";"), function (item) {
-                                        return item != undefined && item.trim().length > 0;
-                                    });;;
-
-            var settings = [];
-            var j = 0;
-            for (j; j < obj.settings.length; j++) {
-                var setting = obj.settings[j];
-                var item = { Name: setting.name, Code: setting.data.toUpperCase() };
-                settings.push(item);
+            for (i = 0  ; i < ids.length; i++) {
+                var res = {};
+                var id = ids[i];
+                var obj = data[id];
+                console.log(obj);
+                res.Delay = obj.delay;
+                res.OpenPortName = obj.openPort.name;
+                res.OpenPort = _.filter(obj.openPort.data.replace("\n", "").replace("\t", "").split(";"), function (item) { return item != undefined && item.trim().length > 0;});
+    
+                res.ResetCPUName = obj.resetCPU.name;
+                res.ResetCPU = _.filter(obj.resetCPU.data
+                                        .replace("\n", "").replace("\t", "")
+                                        .split(";"), function (item) {
+                                            return item != undefined && item.trim().length > 0;
+                                        });
+    
+                res.FactoryResetName = obj.factoryReset.name;
+                res.FactoryReset = _.filter(obj.factoryReset.data
+                                        .replace("\n", "").replace("\t", "")
+                                        .split(";"), function (item) {
+                                            return item != undefined && item.trim().length > 0;
+                                        });
+                
+                res.RunAppName = obj.runApp.name;
+                res.RunApp = _.filter(obj.runApp.data
+                                        .replace("\n", "").replace("\t", "")
+                                        .split(";"), function (item) {
+                                            return item != undefined && item.trim().length > 0;
+                                        });;
+    
+                res.WriteSettingName = obj.writeSetting.name;
+                res.WriteSetting = _.filter(obj.writeSetting.data
+                                        .replace("\n", "").replace("\t", "")
+                                        .split(";"), function (item) {
+                                            return item != undefined && item.trim().length > 0;
+                                        });;;
+    
+                var settings = [];
+                var j = 0;
+                for (j; j < obj.settings.length; j++) {
+                    var setting = obj.settings[j];
+                    var item = { Name: setting.name, Code: setting.data.toUpperCase() };
+                    settings.push(item);
+                }
+                res.Settings = settings;
+    
+                var updateFirmwares = [];
+                j = 0;
+                for (j; j < obj.updateFirmwares.length; j++) {
+                    var updateFirmware = obj.updateFirmwares[j];
+                    var item = {
+                        Name: updateFirmware.name,
+                        Display: updateFirmware.display,
+                        Code: _.filter(updateFirmware.data.toUpperCase()
+                                        .replace("\n", "").replace("\t", "")
+                                        .split(";"), function (item) {
+                                            return item != undefined && item.trim().length > 0;
+                                        })
+                    };
+                    updateFirmwares.push(item);
+                }
+                res.UpdateFW = updateFirmwares;
+    
+                var object = { Name: obj.name, Object :res};
+    
+                resObj.push(object);
+            }   
+    
+            if (compressType == COMPRESSTYPE.LZSTRING) {
+                var jsonStr = JSON.stringify(resObj);
+                var compressStr = LZString.compress(jsonStr);
+                deferred.resolve(compressStr);
             }
-            res.Settings = settings;
-
-            var updateFirmwares = [];
-            j = 0;
-            for (j; j < obj.updateFirmwares.length; j++) {
-                var updateFirmware = obj.updateFirmwares[j];
-                var item = {
-                    Name: updateFirmware.name,
-                    Display: updateFirmware.display,
-                    Code: _.filter(updateFirmware.data.toUpperCase()
-                                    .replace("\n", "").replace("\t", "")
-                                    .split(";"), function (item) {
-                                        return item != undefined && item.trim().length > 0;
-                                    })
-                };
-                updateFirmwares.push(item);
+            else {
+                deferred.resolve(resObj);
             }
-            res.UpdateFW = updateFirmwares;
-
-            var object = { Name: obj.name, Object :res};
-
-            resObj.push(object);
-        }
-
+        });
         
-
-
-        if (compressType == COMPRESSTYPE.LZSTRING) {
-            var jsonStr = JSON.stringify(resObj);
-            var compressStr = LZString.compress(jsonStr);
-            deferred.resolve(compressStr);
-        }
-        else {
-            deferred.resolve(resObj);
-        }
     } catch (ex) {
         deferred.reject({ error: ex });
     }
 
     return deferred.promise;
-
-
-
-
 }
 var getTextFileAsync = function (compressType) {
    
