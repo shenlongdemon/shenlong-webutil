@@ -26,6 +26,9 @@ app.get("/cusservice/:service/:action", controller.docusget);
 app.get("/cusservice/:service/:action", controller.docusget);
 app.post("/service", controller.dopost);
 
+app.get("/v1/service/:service/:action/:obj", controller.dogetv1);
+app.post("/v1/service/:service/:action", controller.dopostv1);
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });

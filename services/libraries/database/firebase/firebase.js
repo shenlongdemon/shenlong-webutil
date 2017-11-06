@@ -24,12 +24,18 @@ var connect = function(configArray){
     // });
 }
 var selectJSON = function (path) {
+    
     var deferred = q.defer();
-    var db = admin.database();
-    var ref = db.ref(path);
-    ref.once("value", function(data) {
-        deferred.resolve(data);
-    });
+    try {
+        var db = admin.database();
+        var ref = db.ref(path);
+        ref.once("value", function(data) {
+            deferred.resolve(data);
+        });
+    }
+    catch(ex){
+        deferred.reject(ex);
+    }
     return deferred.promise;
 }
 var insertJSON = function (path, obj) {

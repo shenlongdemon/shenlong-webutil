@@ -2,10 +2,9 @@
 
 var database = require("./firebase/firebase");
 
-var configurations = [];
 
-var connect = function(configArray){    
-    configurations = configArray;
+
+var connect = function(configArray){   
     database.connect(configArray);
     return this;
 }

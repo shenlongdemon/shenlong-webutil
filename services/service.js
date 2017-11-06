@@ -6,6 +6,7 @@
 var googlemap = require("./modules/google/googlemap");
 var test = require("./modules/test");
 var orion = require("./modules/orion/orion");
+var sharelocsl = require("./modules/sharelocsl/sharelocsl");
 module.exports =
 {
 	doaction: function(service, action, obj){
